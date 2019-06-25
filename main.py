@@ -22,10 +22,18 @@ async def on_message(message):
     if message.content[0]=="past":
         async for m in message.channel.history(limit=5):
             await message.channel.send(m.content)
+    if message.content[0]=="mimic":
+        text = ""
+        async for m in message.channel.history(limit=None):
+            if m.author.id == int(message.content[1]):
+                if not m.content.startswith("p!"):
+                    text = text +m.content+". "
+        text_model = markovify.Text(text)
+        
 
-    await message.channel.send(message.content)
-
-    
+        #print(text)
+        #await message.channel.send(text)
+        await message.channel.send(text_model.make_sentence())
 
 
 
