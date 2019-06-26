@@ -27,21 +27,30 @@ async def on_message(message):
         message.content[1] = ''.join(filter(lambda x: x.isdigit(), s))
         text = ""
         counter=0
-        async for m in message.channel.history(limit=None):
-            if m.author.id == int(message.content[1]):
-                if not m.content.startswith("p!"):
-                    if not m.content == "":
-                        text = text +m.content+"."
-                        counter =counter +1
-            if counter >=300:
-                break
+        async for m in message.channel.history(limit=2500):
+            if counter < 500:
+
+                if m.author.id == int(message.content[1]):
+                    if not m.content.startswith("p!"):
+                        if not m.content == "":
+                            if m.content[-1:]=="?" or m.content[-1:]=="!"or m.content[-1:]==".":
+                                text = text +m.content+" "
+                                counter =counter +1
+                            else:
+                                text = text +m.content+". "
+                                counter =counter +1
         print(text)
         text_model = markovify.Text(text)
         sentence = ""
+        counter = 0
         while sentence=="" or sentence ==None:
+            counter =counter +1
             sentence = text_model.make_sentence()
             print(sentence)
             if sentence != "" and sentence !=None:
+                break
+            if counter > 500:
+                sentence = "FAILED"
                 break
         #print(text)
         #await message.channel.send(text)
