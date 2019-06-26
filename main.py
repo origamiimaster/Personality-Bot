@@ -34,8 +34,12 @@ async def on_message(message):
         #print(text)
         #await message.channel.send(text)
         await message.channel.send(text_model.make_sentence())
+    if message.content[0]=="jfk":
+        file = open('./jfk.txt')
+        text = file.read()
+        file.close()
+        text_model = markovify.Text(text)
 
-
-
+        await message.channel.send(text_model.make_sentence())
 
 client.run(token)
