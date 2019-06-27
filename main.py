@@ -62,13 +62,22 @@ async def on_message(message):
         text_model = markovify.Text(text)
 
         await message.channel.send(text_model.make_sentence())
+
+    if message.content[0]=="trumpTweets":
+        file = open('./trumpTweets.txt')
+        text = file.read()
+        file.close()
+        text_model = markovify.Text(text)
+
+        await message.channel.send(text_model.make_sentence())
+
     if message.content[0]=="help":
         embed=discord.Embed(title="Commands", description="Here are the commands:", color=0xFFFF00)
 
         embed.add_field(name="mimic", value="markov chains a sentence for a mentioned user, based off of past messages in the channel", inline= True)
         embed.add_field(name="jfk", value="markov chains a sentence from President John Fitzgerald Kennedy's speeches", inline= True)
-
-
+        embed.add_field(name="trumpTweets", value="markov chains a sentence from President Donald John Trump's Tweets", inline= True)
+ 
         await message.channel.send(embed=embed)            
 
     
