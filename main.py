@@ -39,14 +39,14 @@ async def on_message(message):
                             else:
                                 text = text +m.content+". "
                                 counter =counter +1
-        print(text)
+        #print(text)
         text_model = markovify.Text(text)
         sentence = ""
         counter = 0
         while sentence=="" or sentence ==None:
             counter =counter +1
             sentence = text_model.make_sentence()
-            print(sentence)
+            #print(sentence)
             if sentence != "" and sentence !=None:
                 break
             if counter > 500:
