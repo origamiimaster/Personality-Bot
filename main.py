@@ -11,7 +11,9 @@ file.close()
 
 @client.event
 async def on_ready():
-    print("[ INFO ]  Bot ready; Listening for incoming messages.")
+    print ("[ INFO ]  Bot connected to Discord.")
+    print ("[ INFO ]  Bot ready; Listening for incoming messages.")    
+    await client.change_presence (activity=discord.Game(name='with your words'))
 
 @client.event
 async def on_message(message):
