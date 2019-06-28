@@ -95,7 +95,12 @@ async def on_message(message):
         embed.add_field(name="obama", value="Markov chains a sentence from President Barrack Hussein Obama's Tweets", inline= True)
 
         await message.channel.send(embed=embed)
-    
+    if message.content[0]=="yugioh":
+        file = open('./'+message.content[1]+'.txt')
+        text = file.read()
+        file.close()
+        text_model = markovify.Text(text)
+        await message.channel.send(text_model.make_sentence())
         #message.channel.send({embed: {
           #color: 3447003,
           #description: "A very simple Embed!"
