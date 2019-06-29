@@ -9,7 +9,12 @@ file.close()
 file = open('./ep3.txt', "r",encoding = "ISO-8859-1")
 script += file.read()
 file.close()
-
+file = open('./ep116.txt', "r",encoding = "ISO-8859-1")
+script += file.read()
+file.close()
+file = open('./ep199.txt', "r",encoding = "ISO-8859-1")
+script += file.read()
+file.close()
 scriptnolines = script.splitlines()
 
 scriptnoblanks = []
@@ -29,7 +34,7 @@ for line in scriptnoblanks:
 
 
 #print(Yuugi)
-file = open('./yuugi.txt',"w+")
+file = open('../yuugi.txt',"w+")
 file.write(Yuugi)
 file.close()
 
@@ -40,7 +45,7 @@ for line in scriptnoblanks:
 	if line[:4] == "Yami":
 		Yami += line [5:]
 #print(Yami)
-file = open('./yami.txt',"w+")
+file = open('../yami.txt',"w+")
 file.write(Yami)
 file.close()
 
@@ -49,15 +54,27 @@ for line in scriptnoblanks:
 	if line[:4] == "Joey":
 		Joey += line [5:]
 #print(Joey)
-file = open('./joey.txt',"w+")
+file = open('../joey.txt',"w+")
 file.write(Joey)
 file.close()
 
 Seto = ""
 for line in scriptnoblanks:
 	if line[:4] == "Seto":
-		Seto += line [5:]
-#print(Seto)
-file = open('./seto.txt',"w+")
+		Seto += line[5:]
+	if line[:5] == "Kaiba":
+		Seto += line[6:]
+file = open('../seto.txt',"w+")
 file.write(Seto)
 file.close()
+
+
+Tristan = ""
+for line in scriptnoblanks:
+	if line[:7] == "Tristan":
+		Seto += line [8:]
+file = open('../tristan.txt',"w+")
+file.write(Tristan)
+file.close()
+
+

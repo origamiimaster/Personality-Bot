@@ -1,6 +1,8 @@
 print("[ INFO ]  Bot initializing.")
 import markovify
 print("[ INFO ]  Successfully imported markovify module.")
+import os.path
+print("[ INFO ] Successfully imported path")
 import discord
 print("[ INFO ]  Successfully imported discord module.")
 client = discord.Client()
@@ -8,13 +10,35 @@ file = open('./token.txt', "r")
 token = file.read()
 print("[ INFO ]  Successfully processed discord bot token.")
 file.close()
+dir_path = os.path.dirname(os.path.realpath(__file__))
+print(dir_path)
+
+def listdir_nohidden(path):
+        for f in os.listdir(path):
+            if not f.startswith('.'):
+                yield f
+commandList = []
+
+
+
 
 @client.event
 async def on_ready():
     print ("[ INFO ]  Bot connected to Discord.")
     print ("[ INFO ]  Bot ready; Listening for incoming messages.")    
     await client.change_presence (activity=discord.Game(name='with your words'))
-
+    print("[ INFO ] GRABBING PERSONALITIES")
+    personality_path = os.path.join(dir_path, os.listdir(dir_path)[2])
+    personality_list = listdir_nohidden(personality_path)
+    for p in personality_list:
+        path = os.path.join(personality_path,p)
+        file = open(path, "r")
+        print(p[:-4])
+        commandList.append(p[:-4])
+        globals()[p[:-4]] = markovify.Text(file.read())
+        #print(globals()[p[:4]].make_sentence())
+        file.close()
+    #print(jfk.make_sentence())
 @client.event
 async def on_message(message):
     if not message.content.startswith("p!"):
@@ -59,50 +83,28 @@ async def on_message(message):
         #await message.channel.send(text)
         await message.channel.send(sentence)
         print ("[ INFO ]  Mimic sentence generation for target user "+message.content[1]+" successful.")
-    if message.content[0]=="jfk":
-        file = open('./jfk.txt')
-        text = file.read()
-        file.close()
-        text_model = markovify.Text(text)
-
-        await message.channel.send(text_model.make_sentence())
-        print ("[ INFO ]  JFK sentence generation successful.")
-
-    if message.content[0]=="trumpTweets":
-        file = open('./trumpTweets.txt')
-        text = file.read()
-        file.close()
-        text_model = markovify.Text(text)
-
-        await message.channel.send(text_model.make_sentence())
-        print ("[ INFO ]  TrumpTweets sentence generation successful.")
-
-    if message.content[0]=="obama":
-        file = open('./obama.txt')
-        text = file.read()
-        file.close()
-        text_model = markovify.Text(text)
-
-        await message.channel.send(text_model.make_sentence())
-        print ("[ INFO ]  Obama sentence generation successful.")
+    if message.content[0] == "quote":
+        string = message.content[1]+".make_sentence()"
+        embed=discord.Embed(title="Quoting "+message.content[1], description=eval(string), color=0x00FF00)
+        await message.channel.send(embed=embed)
+        
 
     if message.content[0]=="help":
         embed=discord.Embed(title="Commands", description="Here are the commands:", color=0xFFFF00)
-
+        for command in commandList:
+            embed.add_field(name=command, value="type p!quote "+command+" to mimic this person", inline= True)
         embed.add_field(name="mimic", value="Markov chains a sentence for a mentioned user, based off of past messages in the channel", inline= True)
-        embed.add_field(name="jfk", value="Markov chains a sentence from President John Fitzgerald Kennedy's speeches", inline= True)
-        embed.add_field(name="trumpTweets", value="Markov chains a sentence from President Donald John Trump's Tweets", inline= True)
-        embed.add_field(name="obama", value="Markov chains a sentence from President Barrack Hussein Obama's Tweets", inline= True)
-
         await message.channel.send(embed=embed)
+
+        
     if message.content[0]=="yugioh":
         file = open('./'+message.content[1]+'.txt')
         text = file.read()
         file.close()
         text_model = markovify.Text(text)
         await message.channel.send(text_model.make_sentence())
-        #message.channel.send({embed: {
-          #color: 3447003,
-          #description: "A very simple Embed!"
-        #}});
 client.run(token)
+
+
+
+
