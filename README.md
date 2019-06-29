@@ -21,7 +21,11 @@ Finally, run the main.py file to begin the bot.
 
 # Adding additional personalities 
 
-Take the example text of whoever you wish to mimic, with punctuation separating sentences. 
+Take the example text of whoever you wish to mimic, with punctuation separating sentences, and add it to a blank txt file with the command alias you want as the name of the file.
+
+For example, if you were to use Abe Lincoln, it might look like abe.txt or lincoln.txt.  
+
+Place this file in the /personality folder.  
 
 The more text there is, the more success the bot will have with generating satisfactory responses.  
 
