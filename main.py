@@ -64,10 +64,8 @@ async def on_message(message):
         counter = 0
         while sentence=="" or sentence ==None:
             counter =counter +1
-            sentence = text_model.make_sentence()
-            if sentence != "" and sentence !=None:
-                break
-            if counter > 500:
+            sentence = text_model.make_sentence(tries=5000)
+            if not sentence != "" and sentence !=None:            
                 sentence = "ERROR: Sentence generation failure."
                 print ("[ FAIL ]  Sentence generation failure.")
                 break
@@ -83,7 +81,7 @@ async def on_message(message):
             if not message.content[1] in globals():
                 await message.channel.send("That is not a valid option for this command")
             else:
-                string = message.content[1]+".make_sentence()"
+                string = message.content[1]+".make_sentence(tries=5000)"
                 text = eval(string)
                 if text =="" or text == None:
                         embed=discord.Embed(title="Quoting "+message.content[1], description="There was an error generating a sentence, please try again or with another user", color=0xFF0000)
@@ -97,9 +95,13 @@ async def on_message(message):
             embed.add_field(name=command, value="type p!quote "+command+" to mimic this person", inline= True)
         embed.add_field(name="mimic", value="Markov chains a sentence for a mentioned user, based off of past messages in the channel", inline= True)
         await message.channel.send(embed=embed)
-
+    if message.content[0]=="info":
+        embed=discord.Embed(title="Personality-Bot", description="Mimicking personas with Markov Chains", color=0x010101)
+        embed.add_field(name="created by", value="Origamiimaster#2189 and WellDone#7408", inline=True)
+        embed.add_field(name="where to start", value="try asking the bot to mimic another user with p!mimic @user#0001", inline = True)
+        embed.add_field(name="common issue #1", value="mimic doesn't work? probably because the user does not have enough messages in this channel. try with more messages or in a different channel", inline = True)
+        embed.add_field(name="common issue #2", value="why doesn't quote work on the new text file i loaded? try making sure that the text is long enough, or try restarting the bot. also check your text for any offending non unicode characters", inline = True)
+        await message.channel.send(embed=embed)
 client.run(token)
-
-
 
 
