@@ -24,10 +24,12 @@ async def on_ready():
     print ("[ INFO ]  Bot ready; Listening for incoming messages.")    
     await client.change_presence (activity=discord.Game(name='with your words'))
     print("[ INFO ]  GRABBING PERSONALITIES")
-    personality_path = os.path.join(dir_path, os.listdir(dir_path)[2])
-    personality_list = listdir_nohidden(personality_path)
+    personality_path = os.path.join(dir_path, os.listdir(dir_path)[2])[:-len('token.txt/')]
+    personality_list = listdir_nohidden("personality")
     for p in personality_list:
-        path = os.path.join(personality_path,p)
+        # print(p)
+        path = os.path.join(personality_path + "/personality", p)
+        # print(path)
         file = open(path, "r")
         print("[ INFO ]  Loading: " +p[:-4])
         commandList.append(p[:-4])
@@ -44,6 +46,7 @@ async def on_message(message):
     message.content = message.content[2:]
     message.content = message.content.split(" ")
     if message.content[0]=="mimic":
+        print("Mimicing: ")
         s = message.content[1]
         message.content[1] = ''.join(filter(lambda x: x.isdigit(), s))
         text = ""
@@ -81,12 +84,13 @@ async def on_message(message):
             if not message.content[1] in globals():
                 await message.channel.send("That is not a valid option for this command")
             else:
-                string = message.content[1]+".make_sentence(tries=5000)"
-                text = eval(string)
-                if text =="" or text == None:
-                        embed=discord.Embed(title="Quoting "+message.content[1], description="There was an error generating a sentence, please try again or with another user", color=0xFF0000)
-                embed=discord.Embed(title="Quoting "+message.content[1], description=eval(string), color=0x00FF00)
-                await message.channel.send(embed=embed)
+                # string = message.content[1]+".make_sentence(tries=5000)"
+                # text = eval(string)
+                # if text =="" or text == None:
+                #         embed=discord.Embed(title="Quoting "+message.content[1], description="There was an error generating a sentence, please try again or with another user", color=0xFF0000)
+                # embed=discord.Embed(title="Quoting "+message.content[1], description=eval(string), color=0x00FF00)
+                # await message.channel.send(embed=embed)
+                pass
         if len(message.content) > 2:
             await message.channel.send("Just a reminder, this command currently only works with one input.")
     if message.content[0]=="help":
